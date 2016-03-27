@@ -21,6 +21,10 @@ public class Tweet {
         return body;
     }
 
+    public void setBody(String body) {
+        this.body = body;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -31,6 +35,10 @@ public class Tweet {
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public static Tweet fromJson(JSONObject jsonObject) {

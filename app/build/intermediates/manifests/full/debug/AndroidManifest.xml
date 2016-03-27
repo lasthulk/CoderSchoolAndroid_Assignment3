@@ -50,6 +50,11 @@
             android:name="com.codepath.apps.twitter.activities.TimelineActivity"
             android:label="@string/title_activity_timeline"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.codepath.apps.twitter.activities.ComposeActivity"
+            android:label="@string/title_activity_compose"
+            android:parentActivityName="com.codepath.apps.twitter.activities.TimelineActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
