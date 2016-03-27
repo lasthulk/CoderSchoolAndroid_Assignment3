@@ -11,6 +11,7 @@ import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.TwitterApplication;
 import com.codepath.apps.twitter.TwitterClient;
 import com.codepath.apps.twitter.adapters.TweetsAdapter;
+import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.twitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -44,18 +45,29 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setItemAnimator(new SlideInUpAnimator());
         this.tweetArrayList = new ArrayList<>();
         this.client = TwitterApplication.getRestClient();
-        getTimelineData();
+//        getTimelineData();
         adapter = new TweetsAdapter(this.tweetArrayList);
         rvTweets.setAdapter(adapter);
-        LinearLayoutManager layout = new LinearLayoutManager(this);
-        layout.setOrientation(LinearLayoutManager.VERTICAL);
-        layout.scrollToPosition(0);
-        rvTweets.setLayoutManager(layout);
-        rvTweets.setHasFixedSize(true);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+        linearLayout.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayout.scrollToPosition(0);
+        rvTweets.setLayoutManager(linearLayout);
+//        rvTweets.setHasFixedSize(true);
+        getTimelineData();
+        rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayout) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                getTimelineData(page, totalItemsCount);
+            }
+        });
     }
 
     private void getTimelineData() {
-        this.client.getHomeTimeline(new JsonHttpResponseHandler() {
+        getTimelineData(0, 25);
+    }
+
+    private void getTimelineData(int page, int totalItemsCount) {
+        this.client.getHomeTimeline(page, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.d(TAG, "onSuccess: " + response.toString());
