@@ -386,7 +386,7 @@
     <string name="status_bar_notification_info_overflow">999+</string>
     <!-- From: file:/D:/github/Android/CSA3_TwitterClient/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="title_activity_compose">Compose Tweet</string>
     <string name="title_activity_timeline">Home Timeline</string>
     <string name="what_s_happening">What\'s happening ?</string>
     <!-- From: file:/D:/github/Android/CSA3_TwitterClient/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/res/values/values.xml -->
