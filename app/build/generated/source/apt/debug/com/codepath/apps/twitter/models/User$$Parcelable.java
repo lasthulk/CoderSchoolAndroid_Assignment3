@@ -6,7 +6,7 @@ import android.os.Parcelable.Creator;
 import org.parceler.Generated;
 import org.parceler.ParcelWrapper;
 
-@Generated(value = "org.parceler.ParcelAnnotationProcessor", date = "2016-03-28T03:15+0700")
+@Generated(value = "org.parceler.ParcelAnnotationProcessor", date = "2016-03-28T19:51+0700")
 @SuppressWarnings({
     "unchecked",
     "deprecation"

@@ -36,6 +36,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.TweetViewH
         @Bind(R.id.tvUserName)
         TextView tvUserName;
 
+        @Bind(R.id.tvTimeStamp)
+        TextView tvTimeStamp;
+
         public TweetViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -61,6 +64,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.TweetViewH
         Tweet tweet = this.tweets.get(position);
         holder.tvBody.setText(tweet.getBody());
         holder.tvUserName.setText(tweet.getUser().getScreenName());
+        holder.tvTimeStamp.setText(tweet.getCreatedAt());
         Context context = holder.ivProfileImage.getContext();
         Glide.with(context).load(tweet.getUser().getProfileImageUrl())
                 .fitCenter()

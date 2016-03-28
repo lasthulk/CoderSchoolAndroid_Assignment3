@@ -12,11 +12,21 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:shadowColor="@android:color/holo_blue_bright"
         android:onClick="loginToRest"
         android:textColor="@color/white"
-        android:background="@color/grayTwitter"
-        android:text="@string/login_label" />
+        android:background="@color/blueTwitter"
+        android:text="@string/login_label"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivLogo"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_twitter_white_48dp"/>
 
 </RelativeLayout>

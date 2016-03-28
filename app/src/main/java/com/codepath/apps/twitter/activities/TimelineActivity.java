@@ -9,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.TwitterApplication;
 import com.codepath.apps.twitter.TwitterClient;
 import com.codepath.apps.twitter.adapters.TweetsAdapter;
+import com.codepath.apps.twitter.helpers.NetworkHelper;
 import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.twitter.models.Tweet;
 import com.codepath.apps.twitter.models.User;
@@ -44,6 +46,7 @@ public class TimelineActivity extends AppCompatActivity {
     FloatingActionButton bnOpenCompose;
 
     TweetsAdapter tweetsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +70,12 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayout) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
+                Log.d(TAG, "onLoadMore page: " + String.valueOf(page));
                 getTimelineData(page, totalItemsCount);
             }
         });
-        getTimelineData();
+        getDefaultTimeline();
+
     }
 
 
@@ -86,6 +91,10 @@ public class TimelineActivity extends AppCompatActivity {
             tweetArrayList.add(0, newTweet);
             tweetsAdapter.notifyItemInserted(0);
             rvTweets.smoothScrollToPosition(0);
+            if (!NetworkHelper.isOnline()) {
+                Toast.makeText(TimelineActivity.this, "Cannot connect to Internet", Toast.LENGTH_SHORT).show();
+                return;
+            }
             client.postNewTweet(newTweet.getBody(), new JsonHttpResponseHandler() {
 
                 @Override
@@ -125,27 +134,49 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    private void getTimelineData() {
+    private void getDefaultTimeline() {
         getTimelineData(0, 25);
+        tweetArrayList.clear();
+        tweetsAdapter.notifyItemRangeRemoved(0, 25);
+        rvTweets.smoothScrollToPosition(0);
     }
 
+    ArrayList<Tweet> newTweets;
+
     private void getTimelineData(int page, int totalItemsCount) {
-
-        this.client.getHomeTimeline(page, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d(TAG, "onSuccess: " + response.toString());
-                ArrayList<Tweet> tweets = Tweet.fromJSONArray(response);
-                tweetArrayList.addAll(tweets);
-                int currentSize = tweetsAdapter.getItemCount();
-                tweetsAdapter.notifyItemRangeInserted(currentSize, tweets.size());
-                //rvTweets.scrollToPosition(tweetsAdapter.getItemCount() - 1);
+        try {
+            if (!NetworkHelper.isOnline()) {
+                Toast.makeText(TimelineActivity.this, "Cannot connect to Internet", Toast.LENGTH_SHORT).show();
+                return;
             }
+            this.client.getHomeTimeline(page, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    Log.d(TAG, "onSuccess: " + response.toString());
+                    newTweets = Tweet.fromJSONArray(response);
+//                ArrayList<Tweet> tweets = Tweet.fromJSONArray(response);
+//                tweetArrayList.addAll(tweets);
+//                int currentSize = tweetsAdapter.getItemCount();
+//                tweetsAdapter.notifyItemRangeInserted(currentSize, tweets.size() - 1);
+                    //rvTweets.scrollToPosition(tweetsAdapter.getItemCount() - 1);
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d(TAG, "onFailure: " + errorResponse.toString());
-            }
-        });
+                    tweetArrayList.addAll(newTweets);
+
+                    int currentSize = tweetsAdapter.getItemCount();
+                    tweetsAdapter.notifyItemRangeInserted(currentSize, newTweets.size() - 1);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.d(TAG, "onFailure: " + errorResponse.toString());
+                }
+
+
+            });
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
