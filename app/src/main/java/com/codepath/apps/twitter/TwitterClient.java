@@ -37,14 +37,13 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().get(apiUrl, handler);
     }
 
-    public void getHomeTimeline(int max_id, AsyncHttpResponseHandler handler) {
+    public void getHomeTimeline(long max_id, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/home_timeline.json");
         RequestParams params = new RequestParams();
         params.put("count", 25);
         params.put("since_id", 1);
-        if (max_id > 1) { // for consecutive calls to this endpoint
-            params.put("max_id", max_id); // would we want this to update based on the last id we got?
-
+        if (max_id > 1) {
+            params.put("max_id", max_id);
         }
         getClient().get(apiUrl, params, handler);
     }

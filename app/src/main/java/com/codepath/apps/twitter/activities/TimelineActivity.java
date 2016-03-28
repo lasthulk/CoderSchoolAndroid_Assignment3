@@ -46,6 +46,7 @@ public class TimelineActivity extends AppCompatActivity {
     FloatingActionButton bnOpenCompose;
 
     TweetsAdapter tweetsAdapter;
+    long maxId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,6 @@ public class TimelineActivity extends AppCompatActivity {
 
         rvTweets.setItemAnimator(new SlideInUpAnimator());
         this.client = TwitterApplication.getRestClient();
-//        getTimelineData();
         tweetsAdapter = new TweetsAdapter(tweetArrayList);
         rvTweets.setAdapter(tweetsAdapter);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
@@ -70,14 +70,16 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayout) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                Log.d(TAG, "onLoadMore page: " + String.valueOf(page));
-                getTimelineData(page, totalItemsCount);
+//                Log.d(TAG, "onLoadMore page: " + String.valueOf(page));
+//                getTimelineData(page, totalItemsCount);
+                if (tweetArrayList.size() > 0) {
+                    maxId = tweetArrayList.get(tweetArrayList.size()-1).getUid();
+                }
+                getTimelineData(maxId, totalItemsCount);
             }
         });
         getDefaultTimeline();
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -87,7 +89,6 @@ public class TimelineActivity extends AppCompatActivity {
             final Tweet newTweet = new Tweet();
             newTweet.setUser(user);
             newTweet.setBody(tweetContent);
-
             tweetArrayList.add(0, newTweet);
             tweetsAdapter.notifyItemInserted(0);
             rvTweets.smoothScrollToPosition(0);
@@ -96,7 +97,6 @@ public class TimelineActivity extends AppCompatActivity {
                 return;
             }
             client.postNewTweet(newTweet.getBody(), new JsonHttpResponseHandler() {
-
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
@@ -136,20 +136,20 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void getDefaultTimeline() {
         getTimelineData(0, 25);
-        tweetArrayList.clear();
-        tweetsAdapter.notifyItemRangeRemoved(0, 25);
-        rvTweets.smoothScrollToPosition(0);
+//        tweetArrayList.clear();
+//        tweetsAdapter.notifyItemRangeRemoved(0, 25);
+//        rvTweets.smoothScrollToPosition(0);
     }
 
     ArrayList<Tweet> newTweets;
 
-    private void getTimelineData(int page, int totalItemsCount) {
+    private void getTimelineData(long maxId, int totalItemsCount) {
         try {
             if (!NetworkHelper.isOnline()) {
                 Toast.makeText(TimelineActivity.this, "Cannot connect to Internet", Toast.LENGTH_SHORT).show();
                 return;
             }
-            this.client.getHomeTimeline(page, new JsonHttpResponseHandler() {
+            this.client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     Log.d(TAG, "onSuccess: " + response.toString());
@@ -161,7 +161,6 @@ public class TimelineActivity extends AppCompatActivity {
                     //rvTweets.scrollToPosition(tweetsAdapter.getItemCount() - 1);
 
                     tweetArrayList.addAll(newTweets);
-
                     int currentSize = tweetsAdapter.getItemCount();
                     tweetsAdapter.notifyItemRangeInserted(currentSize, newTweets.size() - 1);
                 }
@@ -170,11 +169,7 @@ public class TimelineActivity extends AppCompatActivity {
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.d(TAG, "onFailure: " + errorResponse.toString());
                 }
-
-
             });
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
