@@ -110,7 +110,7 @@ MERGED from [com.android.support:support-v4:23.2.1] D:\github\Android\CSA3_Twitt
 	android:theme
 		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:21:9-40
 	android:name
-		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:17:9-43
+		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:17:9-51
 meta-data#AA_DB_NAME
 ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:22:9-24:45
 	android:value
@@ -123,14 +123,14 @@ ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml
 		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:27:13-30
 	android:name
 		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:26:13-41
-activity#com.codepath.apps.twitter.LoginActivity
+activity#com.codepath.apps.twitter.activities.LoginActivity
 ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:29:9-49:20
 	android:label
 		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:31:13-45
 	android:theme
 		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:32:13-44
 	android:name
-		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:30:13-42
+		ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:30:13-53
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from D:\github\Android\CSA3_TwitterClient\app\src\main\AndroidManifest.xml:34:13-38:29
 action#android.intent.action.MAIN

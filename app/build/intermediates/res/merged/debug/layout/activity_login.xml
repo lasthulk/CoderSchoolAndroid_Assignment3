@@ -7,23 +7,22 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/blueTwitter"
-    tools:context=".LoginActivity" >
+    tools:context=".activities.LoginActivity" >
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shadowColor="@android:color/holo_blue_bright"
         android:onClick="loginToRest"
         android:textColor="@color/white"
-        android:background="@color/blueTwitter"
+        android:background="@color/color_button_login"
         android:text="@string/login_label"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/button" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/ivLogo"
         android:layout_above="@+id/button"
         android:layout_centerHorizontal="true"

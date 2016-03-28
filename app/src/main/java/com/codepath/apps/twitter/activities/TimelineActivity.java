@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.apps.twitter.R;
-import com.codepath.apps.twitter.TwitterApplication;
-import com.codepath.apps.twitter.TwitterClient;
+import com.codepath.apps.twitter.network.TwitterApplication;
+import com.codepath.apps.twitter.network.TwitterClient;
 import com.codepath.apps.twitter.adapters.TweetsAdapter;
 import com.codepath.apps.twitter.helpers.NetworkHelper;
 import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;

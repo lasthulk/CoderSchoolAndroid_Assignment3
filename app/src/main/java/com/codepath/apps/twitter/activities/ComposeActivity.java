@@ -18,8 +18,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.twitter.R;
-import com.codepath.apps.twitter.TwitterApplication;
-import com.codepath.apps.twitter.TwitterClient;
+import com.codepath.apps.twitter.network.TwitterApplication;
+import com.codepath.apps.twitter.network.TwitterClient;
 import com.codepath.apps.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.makeramen.roundedimageview.RoundedImageView;
